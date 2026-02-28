@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :product_prices
+  resources :products
 
   devise_for :users
   
@@ -7,10 +9,14 @@ Rails.application.routes.draw do
   get 'dashboard/index'
   
 # 得意先管理
-  resources :customers
+  resources :customers do
+    resources :product_prices, only: [:index, :new, :create, :edit, :update, :destroy]
+  end
 # 仕入先管理
   resources :suppliers do
     resources :supplier_contacts, only: [:new, :create, :edit, :update, :destroy]
   end
-  
+# 商品管理
+  resources :products
+
 end

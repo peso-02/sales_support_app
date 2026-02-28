@@ -1,0 +1,51 @@
+<%= form_with(model: product) do |form| %>
+  <% if product.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
+      <ul>
+        <% product.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :product_code, "商品コード", style: "display: block" %>
+    <%= form.text_field :product_code %>
+  </div>
+
+  <div>
+    <%= form.label :product_name, "商品名", style: "display: block" %>
+    <%= form.text_field :product_name %>
+  </div>
+
+  <div>
+    <%= form.label :case_quantity, "入数", style: "display: block" %>
+    <%= form.number_field :case_quantity, min: 1 %>
+  </div>
+
+  <div>
+    <%= form.label :standard_price_a, "A単価", style: "display: block" %>
+    <%= form.number_field :standard_price_a, step: 0.01 %>
+  </div>
+
+  <div>
+    <%= form.label :standard_price_b, "B単価", style: "display: block" %>
+    <%= form.number_field :standard_price_b, step: 0.01 %>
+  </div>
+
+  <div>
+    <%= form.label :standard_price_c, "C単価", style: "display: block" %>
+    <%= form.number_field :standard_price_c, step: 0.01 %>
+  </div>
+
+  <div>
+    <%= form.label :notes, "備考", style: "display: block" %>
+    <%= form.text_area :notes, rows: 5 %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
