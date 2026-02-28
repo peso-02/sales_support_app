@@ -9,8 +9,12 @@
     <tr>
       <th>得意先コード</th>
       <th>得意先名</th>
+      <th>業態</th>
       <th>支払条件</th>
       <th>発注方法</th>
+      <th>ケース割れ出荷</th>
+      <th>ケース割れ送料</th>
+      <th>納品書</th>
       <th>操作</th>
     </tr>
   </thead>
@@ -18,11 +22,14 @@
     <% @customers.each do |customer| %>
       <tr>
         <td><%= customer.customer_code %></td>
-        <td><%= customer.customer_name %></td>
+        <td><%= link_to customer.customer_name, customer %></td>
+        <td><%= customer.business_type %></td>
         <td><%= customer.payment_terms_display %></td>
         <td><%= customer.order_method ? I18n.t("enums.customer.order_method.#{customer.order_method}") : "-" %></td>
+        <td><%= customer.case_break_shipping_allowed ? "可" : "否" %></td>
+        <td><%= customer.case_break_shipping_allowed ? "#{customer.case_break_shipping_fee}円" : "-" %></td>
+        <td><%= customer.delivery_note_type ? I18n.t("enums.customer.delivery_note_type.#{customer.delivery_note_type}") : "-" %></td>
         <td>
-          <%= link_to "詳細", customer %>
           <%= link_to "編集", edit_customer_path(customer) %>
           <%= button_to "削除", customer, method: :delete, data: { turbo_confirm: "本当に削除しますか？" } %>
         </td>
