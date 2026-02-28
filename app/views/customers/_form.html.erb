@@ -1,0 +1,89 @@
+<%= form_with(model: customer) do |form| %>
+  <% if customer.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(customer.errors.count, "error") %> prohibited this customer from being saved:</h2>
+      <ul>
+        <% customer.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :customer_code, "得意先コード", style: "display: block" %>
+    <%= form.text_field :customer_code %>
+  </div>
+
+  <div>
+    <%= form.label :customer_name, "得意先名", style: "display: block" %>
+    <%= form.text_field :customer_name %>
+  </div>
+
+  <div>
+    <%= form.label :closing_day, "締日", style: "display: block" %>
+    <%= form.select :closing_day, [
+      ['5日', 5],
+      ['10日', 10],
+      ['15日', 15],
+      ['20日', 20],
+      ['25日', 25],
+      ['月末', 99]
+    ], include_blank: "選択してください" %>
+  </div>
+
+  <div>
+    <%= form.label :payment_terms, "支払", style: "display: block" %>
+    <%= form.number_field :payment_terms, min: 0, placeholder: "0〜12など" %>
+    <span>ヶ月後</span>
+  </div>
+
+  <div>
+    <%= form.label :payment_day, "支払日", style: "display: block" %>
+    <%= form.select :payment_day, [
+      ['5日', 5],
+      ['10日', 10],
+      ['15日', 15],
+      ['20日', 20],
+      ['25日', 25],
+      ['月末', 99]
+    ], include_blank: "選択してください" %>
+  </div>
+
+  <div>
+    <%= form.label :business_type, "業態", style: "display: block" %>
+    <%= form.text_field :business_type %>
+  </div>
+
+ <div>
+    <%= form.label :case_break_shipping_allowed, "ケース割れ出荷", style: "display: block" %>
+    <%= form.select :case_break_shipping_allowed, [
+      ['可', true],
+      ['否', false]
+    ], include_blank: "選択してください" %>
+  </div>
+
+  <div>
+    <%= form.label :case_break_shipping_fee, "ケース割れ送料", style: "display: block" %>
+    <%= form.number_field :case_break_shipping_fee %>
+  </div>
+
+  <div>
+    <%= form.label :delivery_note_type, "納品書", style: "display: block" %>
+    <%= form.select :delivery_note_type, Customer.delivery_note_types.keys.map { |k| [I18n.t("enums.customer.delivery_note_type.#{k}"), k] }, include_blank: "選択してください" %>
+  </div>
+
+  <div>
+    <%= form.label :order_method, "発注方法", style: "display: block" %>
+    <%= form.select :order_method, Customer.order_methods.keys.map { |k| [I18n.t("enums.customer.order_method.#{k}"), k] }, include_blank: "選択してください" %>
+  </div>
+
+  <div>
+    <%= form.label :notes, "備考", style: "display: block" %>
+    <%= form.text_area :notes, rows: 5 %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

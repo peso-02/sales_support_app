@@ -6,3 +6,12 @@ ja:
         assistant: "アシスタント"
         approver: "承認者"
         admin: "管理者"
+    customer:
+      delivery_note_type:
+        separate_later: "後日別送"
+        with_product: "商品につける"
+        not_required: "不要"
+      order_method:
+        web_edi: "Web EDI"
+        email: "メール"
+        fax: "FAX"

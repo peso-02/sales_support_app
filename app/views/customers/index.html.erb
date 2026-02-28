@@ -1,0 +1,32 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>得意先一覧</h1>
+
+<%= link_to "新規登録", new_customer_path, class: "btn btn-primary" %>
+
+<table>
+  <thead>
+    <tr>
+      <th>得意先コード</th>
+      <th>得意先名</th>
+      <th>支払条件</th>
+      <th>発注方法</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @customers.each do |customer| %>
+      <tr>
+        <td><%= customer.customer_code %></td>
+        <td><%= customer.customer_name %></td>
+        <td><%= customer.payment_terms_display %></td>
+        <td><%= customer.order_method ? I18n.t("enums.customer.order_method.#{customer.order_method}") : "-" %></td>
+        <td>
+          <%= link_to "詳細", customer %>
+          <%= link_to "編集", edit_customer_path(customer) %>
+          <%= button_to "削除", customer, method: :delete, data: { turbo_confirm: "本当に削除しますか？" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

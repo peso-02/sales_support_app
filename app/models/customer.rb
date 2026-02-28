@@ -8,4 +8,12 @@ class Customer < ApplicationRecord
   
   belongs_to :sales_rep, class_name: 'User', optional: true
   belongs_to :assistant, class_name: 'User', optional: true
+
+  # 支払条件を日本語で表示
+  def payment_terms_display
+    closing = closing_day == 99 ? "月末" : "#{closing_day}日"
+    payment = payment_day == 99 ? "月末" : "#{payment_day}日"
+    "#{closing}締め／#{payment_terms}ヶ月後の#{payment}払い"
+  end
+
 end
