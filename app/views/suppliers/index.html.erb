@@ -1,0 +1,35 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>仕入先一覧</h1>
+
+<%= link_to "新規登録", new_supplier_path, class: "btn btn-primary" %>
+
+<table>
+  <thead>
+    <tr>
+      <th>仕入先コード</th>
+      <th>仕入先名</th>
+      <th>支払条件</th>
+      <th>ケース割れ発注</th>
+      <th>ケース割れ送料</th>
+      <th>担当者</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @suppliers.each do |supplier| %>
+      <tr>
+        <td><%= supplier.supplier_code %></td>
+        <td><%= link_to supplier.supplier_name, supplier %></td>
+        <td><%= supplier.payment_terms_display %></td>
+        <td><%= supplier.case_break_order_allowed ? "可" : "否" %></td>
+        <td><%= supplier.case_break_order_allowed ? "#{supplier.case_break_order_fee}円" : "-" %></td>
+        <td><%= supplier.supplier_contacts.count %>名</td>
+        <td>
+          <%= link_to "編集", edit_supplier_path(supplier) %>
+          <%= button_to "削除", supplier, method: :delete, data: { turbo_confirm: "本当に削除しますか？" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

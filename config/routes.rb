@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :customers
+
   devise_for :users
   
   # ダッシュボードをルートに設定
@@ -8,5 +8,9 @@ Rails.application.routes.draw do
   
 # 得意先管理
   resources :customers
+# 仕入先管理
+  resources :suppliers do
+    resources :supplier_contacts, only: [:new, :create, :edit, :update, :destroy]
+  end
   
 end

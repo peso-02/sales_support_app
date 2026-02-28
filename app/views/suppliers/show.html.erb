@@ -1,0 +1,81 @@
+<p style="color: green"><%= notice %></p>
+
+<h1><%= @supplier.supplier_name %></h1>
+
+<div class="supplier-details">
+  <h2>基本情報</h2>
+  <table>
+    <tr>
+      <th>仕入先コード</th>
+      <td><%= @supplier.supplier_code %></td>
+    </tr>
+    <tr>
+      <th>仕入先名</th>
+      <td><%= @supplier.supplier_name %></td>
+    </tr>
+    <tr>
+      <th>締日</th>
+      <td><%= @supplier.closing_day == 99 ? "月末" : "#{@supplier.closing_day}日" %></td>
+    </tr>
+    <tr>
+      <th>支払条件</th>
+      <td><%= @supplier.payment_terms_display %></td>
+    </tr>
+    <tr>
+      <th>ケース割れ発注</th>
+      <td><%= @supplier.case_break_order_allowed ? "可" : "否" %></td>
+    </tr>
+    <% if @supplier.case_break_order_allowed %>
+      <tr>
+        <th>ケース割れ送料</th>
+        <td><%= @supplier.case_break_order_fee %>円</td>
+      </tr>
+    <% end %>
+  </table>
+
+  <h2>備考</h2>
+  <p><%= simple_format(@supplier.notes) %></p>
+</div>
+
+<div class="supplier-contacts">
+  <h2>担当者一覧</h2>
+  <%= link_to "担当者を追加", new_supplier_supplier_contact_path(@supplier), class: "btn" %>
+  
+  <% if @supplier.supplier_contacts.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>担当者名</th>
+          <th>メール</th>
+          <th>電話番号</th>
+          <th>FAX</th>
+          <th>備考</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @supplier.supplier_contacts.each do |contact| %>
+          <tr>
+            <td><%= contact.contact_name %></td>
+            <td><%= contact.email %></td>
+            <td><%= contact.phone %></td>
+            <td><%= contact.fax %></td>
+            <td><%= contact.notes %></td>
+            <td>
+              <%= link_to "編集", edit_supplier_supplier_contact_path(@supplier, contact) %>
+              <%= button_to "削除", supplier_supplier_contact_path(@supplier, contact), method: :delete, data: { turbo_confirm: "本当に削除しますか？" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>担当者が登録されていません</p>
+  <% end %>
+</div>
+
+<div class="actions">
+  <%= link_to "編集", edit_supplier_path(@supplier), class: "btn" %>
+  <%= link_to "一覧に戻る", suppliers_path, class: "btn" %>
+  <%= button_to "削除", @supplier, method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
+</div>
