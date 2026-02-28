@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer: one
+  product: one
+  selling_price: 9.99
+  notes: MyText
+
+two:
+  customer: two
+  product: two
+  selling_price: 9.99
+  notes: MyText

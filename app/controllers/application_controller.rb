@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
-
-  before_action :basic_auth
+  
+  # 開発環境でBasic認証（一旦コメントアウト）
+  # before_action :basic_auth
 
   # Punditで権限エラーが起きた時の処理
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized

@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer: one
+  title: MyString
+  file_status: 1
+  approved_by_id: 1
+  approved_at: 2026-02-23 17:24:45
+
+two:
+  customer: two
+  title: MyString
+  file_status: 1
+  approved_by_id: 1
+  approved_at: 2026-02-23 17:24:45

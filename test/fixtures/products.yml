@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  product_code: MyString
+  product_name: MyString
+  case_quantity: 1
+  standard_price_a: 9.99
+  standard_price_b: 9.99
+  standard_price_c: 9.99
+  notes: MyText
+
+two:
+  product_code: MyString
+  product_name: MyString
+  case_quantity: 1
+  standard_price_a: 9.99
+  standard_price_b: 9.99
+  standard_price_c: 9.99
+  notes: MyText

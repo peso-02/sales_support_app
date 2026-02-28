@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  supplier_code: MyString
+  supplier_name: MyString
+  closing_day: 1
+  payment_terms: 1
+  case_break_order_allowed: false
+  case_break_order_fee: 1
+  notes: MyText
+
+two:
+  supplier_code: MyString
+  supplier_name: MyString
+  closing_day: 1
+  payment_terms: 1
+  case_break_order_allowed: false
+  case_break_order_fee: 1
+  notes: MyText
