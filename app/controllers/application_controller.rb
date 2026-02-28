@@ -1,6 +1,11 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
-  
+
+  # ログイン後のリダイレクト先
+  def after_sign_in_path_for(resource)
+    root_path
+  end
+
   # 開発環境でBasic認証（一旦コメントアウト）
   # before_action :basic_auth
 

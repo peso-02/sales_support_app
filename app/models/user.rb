@@ -10,6 +10,9 @@ class User < ApplicationRecord
   # approver: 承認者（マニュアル承認可能）
   # admin: 管理者（全権限）
   enum role: { general: 0, assistant: 1, approver: 2, admin: 3 }
+  def role_i18n
+    I18n.t("enums.user.role.#{role}")
+  end
 
   # デフォルトはgeneral
   after_initialize :set_default_role, if: :new_record?

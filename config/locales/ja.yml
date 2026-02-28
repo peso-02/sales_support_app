@@ -1,0 +1,8 @@
+ja:
+  enums:
+    user:
+      role:
+        general: "一般ユーザー"
+        assistant: "アシスタント"
+        approver: "承認者"
+        admin: "管理者"

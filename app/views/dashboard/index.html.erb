@@ -1,0 +1,35 @@
+<div class="dashboard-container">
+  <h1>営業支援システム</h1>
+  
+  <div class="user-info">
+    <p>ようこそ、<%= current_user.email %> さん</p>
+    <p>役割: <%= current_user.role_i18n %></p>
+    <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete } %>
+  </div>
+
+  <div class="menu-grid">
+    <div class="menu-item">
+      <h2>得意先管理</h2>
+      <p>得意先情報の登録・編集・閲覧</p>
+      <%= link_to "得意先一覧", "#", class: "btn" %>
+    </div>
+
+    <div class="menu-item">
+      <h2>仕入先管理</h2>
+      <p>仕入先情報の登録・編集・閲覧</p>
+      <%= link_to "仕入先一覧", "#", class: "btn" %>
+    </div>
+
+    <div class="menu-item">
+      <h2>商品管理</h2>
+      <p>商品情報・単価の登録・編集・閲覧</p>
+      <%= link_to "商品一覧", "#", class: "btn" %>
+    </div>
+
+    <div class="menu-item">
+      <h2>マニュアル管理</h2>
+      <p>得意先ごとのマニュアル管理</p>
+      <%= link_to "マニュアル一覧", "#", class: "btn" %>
+    </div>
+  </div>
+</div>
