@@ -1,14 +1,51 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Product prices</h1>
+<h1><%= @customer.customer_name %> の商品単価一覧</h1>
 
-<div id="product_prices">
-  <% @product_prices.each do |product_price| %>
-    <%= render product_price %>
-    <p>
-      <%= link_to "Show this product price", product_price %>
-    </p>
-  <% end %>
-</div>
+<%= link_to "商品単価を追加", new_customer_product_price_path(@customer), class: "btn btn-primary" %>
+<%= link_to "得意先詳細に戻る", customer_path(@customer), class: "btn" %>
 
-<%= link_to "New product price", new_product_price_path %>
+<table>
+  <thead>
+    <tr>
+      <th>商品コード</th>
+      <th>商品名</th>
+      <th>入数</th>
+      <th>A単価</th>
+      <th>B単価</th>
+      <th>C単価</th>
+      <th>販売単価（仕切）</th>
+      <th>備考</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% Product.all.each do |product| %>
+      <% product_price = @customer.product_prices.find_by(product: product) %>
+      <tr>
+        <td><%= product.product_code %></td>
+        <td><%= product.product_name %></td>
+        <td><%= product.case_quantity %></td>
+        <td><%= number_to_currency(product.standard_price_a, unit: "¥", precision: 0) if product.standard_price_a %></td>
+        <td><%= number_to_currency(product.standard_price_b, unit: "¥", precision: 0) if product.standard_price_b %></td>
+        <td><%= number_to_currency(product.standard_price_c, unit: "¥", precision: 0) if product.standard_price_c %></td>
+        <td>
+          <% if product_price %>
+            <strong><%= number_to_currency(product_price.selling_price, unit: "¥", precision: 0) %></strong>
+          <% else %>
+            <span style="color: #999;">未設定</span>
+          <% end %>
+        </td>
+        <td><%= product_price&.notes %></td>
+        <td>
+          <% if product_price %>
+            <%= link_to "編集", edit_customer_product_price_path(@customer, product_price) %>
+            <%= button_to "削除", customer_product_price_path(@customer, product_price), method: :delete, data: { turbo_confirm: "本当に削除しますか？" } %>
+          <% else %>
+            <%= link_to "単価設定", new_customer_product_price_path(@customer, product_id: product.id), class: "btn-small" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,10 +1,10 @@
-<h1>Editing product price</h1>
+<h1>商品単価の編集</h1>
+<p>得意先: <%= @customer.customer_name %></p>
 
-<%= render "form", product_price: @product_price %>
+<%= render "form", customer: @customer, product_price: @product_price %>
 
 <br>
 
 <div>
-  <%= link_to "Show this product price", @product_price %> |
-  <%= link_to "Back to product prices", product_prices_path %>
+  <%= link_to "戻る", customer_product_prices_path(@customer) %>
 </div>

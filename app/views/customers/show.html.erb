@@ -59,4 +59,7 @@
   <%= button_to "削除", @customer, method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
 </div>
 
-<hr​​​​​​​​​​​​​​​​
+<hr>
+
+<h2>商品単価一覧</h2>
+<%= link_to "商品単価を見る", customer_product_prices_path(@customer), class: "btn" %>

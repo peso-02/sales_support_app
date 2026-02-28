@@ -1,70 +1,52 @@
 class ProductPricesController < ApplicationController
-  before_action :set_product_price, only: %i[ show edit update destroy ]
+  before_action :set_customer
+  before_action :set_product_price, only: [:edit, :update, :destroy]
 
-  # GET /product_prices or /product_prices.json
   def index
-    @product_prices = ProductPrice.all
+    @product_prices = @customer.product_prices.includes(:product)
   end
 
-  # GET /product_prices/1 or /product_prices/1.json
-  def show
-  end
-
-  # GET /product_prices/new
   def new
-    @product_price = ProductPrice.new
+    @product_price = @customer.product_prices.build
   end
 
-  # GET /product_prices/1/edit
+  def create
+    @product_price = @customer.product_prices.build(product_price_params)
+    
+    if @product_price.save
+      redirect_to customer_product_prices_path(@customer), notice: "商品単価を登録しました。"
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   def edit
   end
 
-  # POST /product_prices or /product_prices.json
-  def create
-    @product_price = ProductPrice.new(product_price_params)
-
-    respond_to do |format|
-      if @product_price.save
-        format.html { redirect_to @product_price, notice: "Product price was successfully created." }
-        format.json { render :show, status: :created, location: @product_price }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @product_price.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /product_prices/1 or /product_prices/1.json
   def update
-    respond_to do |format|
-      if @product_price.update(product_price_params)
-        format.html { redirect_to @product_price, notice: "Product price was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @product_price }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @product_price.errors, status: :unprocessable_entity }
-      end
+    if @product_price.update(product_price_params)
+      redirect_to customer_product_prices_path(@customer), notice: "商品単価を更新しました。"
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /product_prices/1 or /product_prices/1.json
   def destroy
-    @product_price.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to product_prices_path, notice: "Product price was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
-    end
+    @product_price.destroy
+    redirect_to customer_product_prices_path(@customer), notice: "商品単価を削除しました。"
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_product_price
-      @product_price = ProductPrice.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def product_price_params
-      params.fetch(:product_price, {})
-    end
+  def set_customer
+    @customer = Customer.find(params[:customer_id])
+  end
+
+  def set_product_price
+    @product_price = @customer.product_prices.find(params[:id])
+  end
+
+  def product_price_params
+    params.require(:product_price).permit(:product_id, :selling_price, :notes)
+  end
 end
