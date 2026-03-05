@@ -3,7 +3,7 @@
 <h1>仕入先一覧</h1>
 
 <%= link_to "新規登録", new_supplier_path, class: "btn btn-primary" %>
-
+<%= link_to "CSV出力", suppliers_path(format: :csv), class: "btn" %>
 <table>
   <thead>
     <tr>
