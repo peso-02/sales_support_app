@@ -16,4 +16,39 @@ class Customer < ApplicationRecord
     "#{closing}締め／#{payment_terms}ヶ月後の#{payment}払い"
   end
 
+  def self.to_csv
+    require 'csv'
+    
+    CSV.generate(headers: true) do |csv|
+      csv << [
+        "得意先コード",
+        "得意先名",
+        "締日",
+        "支払サイト",
+        "支払日",
+        "業態",
+        "ケース割れ出荷可否",
+        "ケース割れ送料",
+        "納品書タイプ",
+        "発注方法",
+        "備考"
+      ]
+      
+      all.each do |customer|
+        csv << [
+          customer.customer_code,
+          customer.customer_name,
+          customer.closing_day,
+          customer.payment_terms,
+          customer.payment_day,
+          customer.business_type,
+          customer.case_break_shipping_allowed ? "可" : "否",
+          customer.case_break_shipping_fee,
+          customer.delivery_note_type,
+          customer.order_method,
+          customer.notes
+        ]
+      end
+    end
+  end
 end
