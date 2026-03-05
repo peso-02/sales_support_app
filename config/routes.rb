@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   
 # 得意先管理
   resources :customers do
+    collection do
+      post :import
+    end
     resources :product_prices, only: [:index, :new, :create, :edit, :update, :destroy]
   end
 # 仕入先管理

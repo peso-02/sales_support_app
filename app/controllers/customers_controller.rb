@@ -62,6 +62,17 @@ class CustomersController < ApplicationController
     end
   end
 
+  def import
+    if params[:file].present?
+      Customer.import(params[:file])
+      redirect_to customers_path, notice: "CSVをインポートしました。"
+    else
+      redirect_to customers_path, alert: "ファイルを選択してください。"
+    end
+  rescue => e
+    redirect_to customers_path, alert: "インポートに失敗しました: #{e.message}"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_customer
