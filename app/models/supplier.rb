@@ -30,7 +30,7 @@ class Supplier < ApplicationRecord
           supplier.closing_day,
           supplier.payment_terms,
           supplier.payment_day,
-          supplier.case_break_order_allowed ? "可" : "否",
+          supplier.case_break_order_allowed ? "1" : "0",
           supplier.case_break_order_fee,
           supplier.notes
         ]
@@ -55,12 +55,34 @@ class Supplier < ApplicationRecord
     csv.each.with_index(2) do |row, line_number|
       begin
         supplier = find_or_initialize_by(supplier_code: row["仕入先コード"])
+        
+        # 締日の変換（5, 10, 15, 20, 25, 99）
+        closing_day_value = row["締日"]
+        unless [nil, "", "5", "10", "15", "20", "25", "99"].include?(closing_day_value)
+          raise "締日が不正です（5, 10, 15, 20, 25, 99:月末 のいずれかを入力してください）"
+        end
+        
+        # 支払日の変換（5, 10, 15, 20, 25, 99）
+        payment_day_value = row["支払日"]
+        unless [nil, "", "5", "10", "15", "20", "25", "99"].include?(payment_day_value)
+          raise "支払日が不正です（5, 10, 15, 20, 25, 99:月末 のいずれかを入力してください）"
+        end
+        
+        # ケース割れ発注可否の変換（0:否、1:可）
+        case_break_value = case row["ケース割れ発注可否"]
+        when "0" then false
+        when "1" then true
+        when nil, "" then nil
+        else
+          raise "ケース割れ発注可否が不正です（0:否、1:可のいずれかを入力してください）"
+        end
+        
         supplier.assign_attributes(
           supplier_name: row["仕入先名"],
-          closing_day: row["締日"],
+          closing_day: closing_day_value,
           payment_terms: row["支払サイト"],
-          payment_day: row["支払日"],
-          case_break_order_allowed: row["ケース割れ発注可否"] == "可",
+          payment_day: payment_day_value,
+          case_break_order_allowed: case_break_value,
           case_break_order_fee: row["ケース割れ送料"],
           notes: row["備考"]
         )

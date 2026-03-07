@@ -42,10 +42,18 @@ class Customer < ApplicationRecord
           customer.payment_terms,
           customer.payment_day,
           customer.business_type,
-          customer.case_break_shipping_allowed ? "可" : "否",
+          customer.case_break_shipping_allowed ? "1" : "0",
           customer.case_break_shipping_fee,
-          customer.delivery_note_type,
-          customer.order_method,
+          case customer.delivery_note_type
+          when "separate_later" then "1"
+          when "with_product" then "2"
+          when "not_required" then "3"
+          end,
+          case customer.order_method
+          when "web_edi" then "0"
+          when "email" then "1"
+          when "fax" then "2"
+          end,
           customer.notes
         ]
       end
@@ -61,14 +69,35 @@ class Customer < ApplicationRecord
     
     missing_headers = required_headers - csv.headers
     if missing_headers.any?
-      raise "CSVのフォーマットが正しくありません。"
+      raise "CSVのフォーマットが正しくありません。不足している列: #{missing_headers.join(', ')}"
     end
-
+    
     errors = []
     
     csv.each.with_index(2) do |row, line_number|
       begin
         customer = find_or_initialize_by(customer_code: row["得意先コード"])
+        
+        # 締日の変換（5, 10, 15, 20, 25, 99）
+        closing_day_value = row["締日"]
+        unless [nil, "", "5", "10", "15", "20", "25", "99"].include?(closing_day_value)
+          raise "締日が不正です（5, 10, 15, 20, 25, 99:月末 のいずれかを入力してください）: #{closing_day_value}"
+        end
+        
+        # 支払日の変換（5, 10, 15, 20, 25, 99）
+        payment_day_value = row["支払日"]
+        unless [nil, "", "5", "10", "15", "20", "25", "99"].include?(payment_day_value)
+          raise "支払日が不正です（5, 10, 15, 20, 25, 99:月末 のいずれかを入力してください）: #{payment_day_value}"
+        end
+        
+        # ケース割れ出荷可否の変換（0:否、1:可）
+        case_break_value = case row["ケース割れ出荷可否"]
+        when "0" then false
+        when "1" then true
+        when nil, "" then nil
+        else
+          raise "ケース割れ出荷可否が不正です（0:否、1:可のいずれかを入力してください）"
+        end
         
         # 納品書タイプの変換（1:後日別送、2:商品につける、3:不要）
         delivery_note_type_value = case row["納品書タイプ"]
@@ -77,7 +106,7 @@ class Customer < ApplicationRecord
         when "3" then "not_required"
         when nil, "" then nil
         else
-          raise "納品書タイプが不正です（1:後日別送、2:商品につける、3:不要）のいずれかを入力してください"
+          raise "納品書タイプが不正です（1:後日別送、2:商品につける、3:不要のいずれかを入力してください）"
         end
         
         # 発注方法の変換（0:Web EDI、1:メール、2:FAX）
@@ -87,16 +116,16 @@ class Customer < ApplicationRecord
         when "2" then "fax"
         when nil, "" then nil
         else
-          raise "発注方法が不正です（0:Web EDI、1:メール、2:FAX）のいずれかを入力してください"
+          raise "発注方法が不正です（0:Web EDI、1:メール、2:FAXのいずれかを入力してください）"
         end
         
         customer.assign_attributes(
           customer_name: row["得意先名"],
-          closing_day: row["締日"],
+          closing_day: closing_day_value,
           payment_terms: row["支払サイト"],
-          payment_day: row["支払日"],
+          payment_day: payment_day_value,
           business_type: row["業態"],
-          case_break_shipping_allowed: row["ケース割れ出荷可否"] == "可",
+          case_break_shipping_allowed: case_break_value,
           case_break_shipping_fee: row["ケース割れ送料"],
           delivery_note_type: delivery_note_type_value,
           order_method: order_method_value,
