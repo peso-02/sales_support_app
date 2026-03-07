@@ -61,6 +61,17 @@ class ProductsController < ApplicationController
     end
   end
 
+  def import
+    if params[:file].present?
+      Product.import(params[:file])
+      redirect_to products_path, notice: "CSVをインポートしました。"
+    else
+      redirect_to products_path, alert: "ファイルを選択してください。"
+    end
+  rescue => e
+    redirect_to products_path, alert: "インポートに失敗しました: #{e.message}"
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product

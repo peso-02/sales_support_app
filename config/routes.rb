@@ -23,6 +23,9 @@ Rails.application.routes.draw do
     resources :supplier_contacts, only: [:new, :create, :edit, :update, :destroy]
   end
 # 商品管理
-  resources :products
-
+  resources :products do
+    collection do
+      post :import
+    end
+  end
 end
