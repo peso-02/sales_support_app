@@ -37,4 +37,39 @@ class Supplier < ApplicationRecord
       end
     end
   end
+
+  def self.import(file)
+    require 'csv'
+    
+    # 必須ヘッダーのチェック
+    required_headers = ["仕入先コード", "仕入先名", "締日", "支払サイト", "支払日", "ケース割れ発注可否", "ケース割れ送料", "備考"]
+    csv = CSV.read(file.path, headers: true)
+    
+    missing_headers = required_headers - csv.headers
+    if missing_headers.any?
+      raise "CSVのフォーマットが正しくありません。"
+    end
+    
+    errors = []
+    
+    csv.each.with_index(2) do |row, line_number|
+      begin
+        supplier = find_or_initialize_by(supplier_code: row["仕入先コード"])
+        supplier.assign_attributes(
+          supplier_name: row["仕入先名"],
+          closing_day: row["締日"],
+          payment_terms: row["支払サイト"],
+          payment_day: row["支払日"],
+          case_break_order_allowed: row["ケース割れ発注可否"] == "可",
+          case_break_order_fee: row["ケース割れ送料"],
+          notes: row["備考"]
+        )
+        supplier.save!
+      rescue => e
+        errors << "#{line_number}行目: #{e.message}"
+      end
+    end
+    
+    raise errors.join("\n") if errors.any?
+  end
 end

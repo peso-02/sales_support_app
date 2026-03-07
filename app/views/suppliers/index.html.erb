@@ -2,6 +2,10 @@
 
 <%= link_to "新規登録", new_supplier_path, class: "btn btn-primary" %>
 <%= link_to "CSV出力", suppliers_path(format: :csv), class: "btn" %>
+<%= form_with url: import_suppliers_path, multipart: true do |f| %>
+  <%= f.file_field :file, accept: ".csv" %>
+  <%= f.submit "CSVインポート", class: "btn" %>
+<% end %>
 <table>
   <thead>
     <tr>
