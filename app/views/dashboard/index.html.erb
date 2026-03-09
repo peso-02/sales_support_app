@@ -1,35 +1,50 @@
-<div class="dashboard-container">
-  <h1>営業支援システム</h1>
+<div class="mt-4">
   
-  <div class="user-info">
-    <p>ようこそ、<%= current_user.email %> さん</p>
-    <p>役割: <%= current_user.role_i18n %></p>
-    <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete } %>
+  <div class="alert alert-info">
+    <strong>ようこそ、<%= current_user.email %> さん</strong><br>
+    役割: <%= current_user.role_i18n %>
   </div>
 
-  <div class="menu-grid">
-    <div class="menu-item">
-      <h2>得意先管理</h2>
-      <p>得意先情報の登録・編集・閲覧</p>
-      <%= link_to "得意先一覧", customers_path, class: "btn" %>
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">📋 得意先管理</h5>
+          <p class="card-text">得意先情報の登録・編集・閲覧</p>
+          <%= link_to "得意先一覧", customers_path, class: "btn btn-primary" %>
+        </div>
+      </div>
     </div>
 
-    <div class="menu-item">
-      <h2>仕入先管理</h2>
-      <p>仕入先情報の登録・編集・閲覧</p>
-      <%= link_to "仕入先一覧", suppliers_path, class: "btn" %>
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">🏭 仕入先管理</h5>
+          <p class="card-text">仕入先情報の登録・編集・閲覧</p>
+          <%= link_to "仕入先一覧", suppliers_path, class: "btn btn-primary" %>
+        </div>
+      </div>
     </div>
 
-    <div class="menu-item">
-      <h2>商品管理</h2>
-      <p>商品情報・単価の登録・編集・閲覧</p>
-      <%= link_to "商品一覧", products_path, class: "btn" %>
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">📦 商品管理</h5>
+          <p class="card-text">商品情報・単価の登録・編集・閲覧</p>
+          <%= link_to "商品一覧", products_path, class: "btn btn-primary" %>
+        </div>
+      </div>
     </div>
 
-    <div class="menu-item">
-      <h2>マニュアル管理</h2>
-      <p>得意先ごとのマニュアル管理</p>
-      <%= link_to "マニュアル一覧", "#", class: "btn" %>
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">📚 マニュアル管理</h5>
+          <p class="card-text">得意先ごとのマニュアル管理</p>
+          <%= link_to "マニュアル一覧", "#", class: "btn btn-secondary disabled" %>
+          <small class="text-muted d-block mt-2">※後ほど実装予定</small>
+        </div>
+      </div>
     </div>
   </div>
 </div>

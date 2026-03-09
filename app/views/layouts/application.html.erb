@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SalesSupportApp</title>
+    <title>営業支援システム</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,12 +11,35 @@
   </head>
 
   <body>
-    <% if notice %>
-      <p class="notice" style="color: green"><%= notice %></p>
-    <% end %>
-    <% if alert %>
-      <p class="alert" style="color: red"><%= alert %></p>
-    <% end %>
-    <%= yield %>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <%= link_to "営業支援システム", root_path, class: "navbar-brand" %>
+        <% if user_signed_in? %>
+          <div class="d-flex">
+            <span class="navbar-text text-white me-3">
+              <%= current_user.email %> (<%= current_user.role_i18n %>)
+            </span>
+            <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" %>
+          </div>
+        <% end %>
+      </div>
+    </nav>
+
+    <div class="container">
+      <% if notice %>
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+          <%= notice %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+          <%= alert %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </div>
   </body>
 </html>
