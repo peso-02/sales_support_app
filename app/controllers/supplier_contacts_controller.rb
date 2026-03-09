@@ -1,4 +1,5 @@
 class SupplierContactsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_supplier
   before_action :set_supplier_contact, only: [:edit, :update, :destroy]
 

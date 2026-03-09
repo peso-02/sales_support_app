@@ -1,4 +1,5 @@
 class ProductPricesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_customer
   before_action :set_product_price, only: [:edit, :update, :destroy]
 
