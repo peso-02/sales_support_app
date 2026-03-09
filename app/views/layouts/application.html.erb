@@ -15,10 +15,11 @@
       <div class="container-fluid">
         <%= link_to "営業支援システム", root_path, class: "navbar-brand" %>
         <% if user_signed_in? %>
-          <div class="d-flex">
+          <div class="d-flex align-items-center">
             <span class="navbar-text text-white me-3">
               <%= current_user.email %> (<%= current_user.role_i18n %>)
             </span>
+            <%= link_to "アカウント設定", edit_user_registration_path, class: "btn btn-outline-secondary btn-sm me-2" %>
             <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" %>
           </div>
         <% end %>
