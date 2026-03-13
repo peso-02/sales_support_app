@@ -1,49 +1,57 @@
-<h1><%= @product.product_name %></h1>
+<div class="mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><%= @product.product_name %></h1>
+    <div class="d-flex gap-2">
+      <%= link_to "編集", edit_product_path(@product), class: "btn btn-outline-secondary" %>
+      <%= button_to "削除", @product, method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "btn btn-outline-danger", form: { style: "display: inline-block;" } %>
+    </div>
+  </div>
 
-<div class="product-details">
-  <h2>基本情報</h2>
-  <table>
-    <tr>
-      <th>商品コード</th>
-      <td><%= @product.product_code %></td>
-    </tr>
-    <tr>
-      <th>商品名</th>
-      <td><%= @product.product_name %></td>
-    </tr>
-    <tr>
-      <th>入数</th>
-      <td><%= @product.case_quantity %></td>
-    </tr>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th class="table-light" style="width: 200px;">商品コード</th>
+          <td><%= @product.product_code %></td>
+        </tr>
+        <tr>
+          <th class="table-light">商品名</th>
+          <td><%= @product.product_name %></td>
+        </tr>
+        <tr>
+          <th class="table-light">入数</th>
+          <td><%= @product.case_quantity %></td>
+        </tr>
+        <tr>
+          <th class="table-light">A単価</th>
+          <td><%= number_to_currency(@product.standard_price_a, unit: "¥", precision: 0) if @product.standard_price_a %></td>
+        </tr>
+        <tr>
+          <th class="table-light">B単価</th>
+          <td><%= number_to_currency(@product.standard_price_b, unit: "¥", precision: 0) if @product.standard_price_b %></td>
+        </tr>
+        <tr>
+          <th class="table-light">C単価</th>
+          <td><%= number_to_currency(@product.standard_price_c, unit: "¥", precision: 0) if @product.standard_price_c %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <h2>標準単価</h2>
-  <table>
-    <tr>
-      <th>A単価</th>
-      <td><%= number_to_currency(@product.standard_price_a, unit: "¥", precision: 0) if @product.standard_price_a %></td>
-    </tr>
-    <tr>
-      <th>B単価</th>
-      <td><%= number_to_currency(@product.standard_price_b, unit: "¥", precision: 0) if @product.standard_price_b %></td>
-    </tr>
-    <tr>
-      <th>C単価</th>
-      <td><%= number_to_currency(@product.standard_price_c, unit: "¥", precision: 0) if @product.standard_price_c %></td>
-    </tr>
-  </table>
+  <div class="card mt-3">
+    <div class="card-header">
+      📝 備考
+    </div>
+    <div class="card-body">
+      <% if @product.notes.present? %>
+        <%= simple_format(@product.notes) %>
+      <% else %>
+        <p class="text-muted mb-0">備考なし</p>
+      <% end %>
+    </div>
+  </div>
 
-  <h2>備考</h2>
-  <p><%= simple_format(@product.notes) %></p>
+  <div class="mt-3">
+    <%= link_to "一覧に戻る", products_path, class: "btn btn-secondary" %>
+  </div>
 </div>
-
-<div class="actions">
-  <%= link_to "編集", edit_product_path(@product), class: "btn" %>
-  <%= link_to "一覧に戻る", products_path, class: "btn" %>
-  <%= button_to "削除", @product, method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
-</div>
-
-<hr>
-
-<h2>得意先別単価</h2>
-<p>得意先ごとの販売単価は後ほど実装</p>
