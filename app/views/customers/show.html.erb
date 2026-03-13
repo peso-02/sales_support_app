@@ -1,63 +1,66 @@
-<h1><%= @customer.customer_name %></h1>
+<div class="mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><%= @customer.customer_name %></h1>
+    <div>
+      <%= link_to "編集", edit_customer_path(@customer), class: "btn btn-warning" %>
+      <%= link_to "商品単価を見る", customer_product_prices_path(@customer), class: "btn btn-info" %>
+      <%= button_to "削除", @customer, method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
+    </div>
+  </div>
 
-<div class="customer-details">
-  <h2>基本情報</h2>
-  <table>
-    <tr>
-      <th>得意先コード</th>
-      <td><%= @customer.customer_code %></td>
-    </tr>
-    <tr>
-      <th>得意先名</th>
-      <td><%= @customer.customer_name %></td>
-    </tr>
-    <tr>
-      <th>業態</th>
-      <td><%= @customer.business_type %></td>
-    </tr>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th class="table-light" style="width: 200px;">得意先コード</th>
+          <td><%= @customer.customer_code %></td>
+        </tr>
+        <tr>
+          <th class="table-light">得意先名</th>
+          <td><%= @customer.customer_name %></td>
+        </tr>
+        <tr>
+          <th class="table-light">業態</th>
+          <td><%= @customer.business_type %></td>
+        </tr>
+        <tr>
+          <th class="table-light">支払条件</th>
+          <td><%= @customer.payment_terms_display %></td>
+        </tr>
+        <tr>
+          <th class="table-light">発注方法</th>
+          <td><%= @customer.order_method ? I18n.t("enums.customer.order_method.#{@customer.order_method}") : "-" %></td>
+        </tr>
+        <tr>
+          <th class="table-light">ケース割れ出荷</th>
+          <td><%= @customer.case_break_shipping_allowed ? "可" : "否" %></td>
+        </tr>
+        <tr>
+          <th class="table-light">ケース割れ送料</th>
+          <td><%= @customer.case_break_shipping_allowed ? "#{@customer.case_break_shipping_fee}円" : "-" %></td>
+        </tr>
+        <tr>
+          <th class="table-light">納品書</th>
+          <td><%= @customer.delivery_note_type ? I18n.t("enums.customer.delivery_note_type.#{@customer.delivery_note_type}") : "-" %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <h2>支払条件</h2>
-  <table>
-    <tr>
-      <th>支払条件</th>
-      <td><%= @customer.payment_terms_display %></td>
-    </tr>
-  </table>
+  <div class="card mt-3">
+    <div class="card-header">
+      📝 備考
+    </div>
+    <div class="card-body">
+      <% if @customer.notes.present? %>
+        <%= simple_format(@customer.notes) %>
+      <% else %>
+        <p class="text-muted mb-0">備考なし</p>
+      <% end %>
+    </div>
+  </div>
 
-  <h2>出荷・発注情報</h2>
-  <table>
-    <tr>
-      <th>発注方法</th>
-      <td><%= @customer.order_method ? I18n.t("enums.customer.order_method.#{@customer.order_method}") : "-" %></td>
-    </tr>
-    <tr>
-      <th>ケース割れ出荷</th>
-      <td><%= @customer.case_break_shipping_allowed ? "可" : "否" %></td>
-    </tr>
-    <% if @customer.case_break_shipping_allowed %>
-      <tr>
-        <th>ケース割れ送料</th>
-        <td><%= @customer.case_break_shipping_fee %>円</td>
-      </tr>
-    <% end %>
-    <tr>
-      <th>納品書</th>
-      <td><%= @customer.delivery_note_type ? I18n.t("enums.customer.delivery_note_type.#{@customer.delivery_note_type}") : "-" %></td>
-    </tr>
-  </table>
-
-  <h2>備考</h2>
-  <p><%= simple_format(@customer.notes) %></p>
+  <div class="mt-3">
+    <%= link_to "一覧に戻る", customers_path, class: "btn btn-secondary" %>
+  </div>
 </div>
-
-<div class="actions">
-  <%= link_to "編集", edit_customer_path(@customer), class: "btn" %>
-  <%= link_to "一覧に戻る", customers_path, class: "btn" %>
-  <%= button_to "削除", @customer, method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
-</div>
-
-<hr>
-
-<h2>商品単価一覧</h2>
-<%= link_to "商品単価を見る", customer_product_prices_path(@customer), class: "btn" %>
