@@ -1,51 +1,74 @@
-<%= form_with(model: product) do |form| %>
-  <% if product.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
-      <ul>
-        <% product.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<div class="mt-4">
+  <%= form_with(model: product) do |form| %>
+    <% if product.errors.any? %>
+      <div class="alert alert-danger">
+        <h5><%= pluralize(product.errors.count, "個") %>のエラーがあります</h5>
+        <ul class="mb-0">
+          <% product.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th class="table-light align-middle" style="width: 200px;">商品コード</th>
+            <td><%= form.text_field :product_code, class: "form-control" %></td>
+          </tr>
+          <tr>
+            <th class="table-light align-middle">商品名</th>
+            <td><%= form.text_field :product_name, class: "form-control" %></td>
+          </tr>
+          <tr>
+            <th class="table-light align-middle">入数</th>
+            <td><%= form.number_field :case_quantity, min: 1, class: "form-control" %></td>
+          </tr>
+          <tr>
+            <th class="table-light align-middle">A単価</th>
+            <td>
+              <div class="input-group">
+                <span class="input-group-text">¥</span>
+                <%= form.number_field :standard_price_a, step: 1, class: "form-control" %>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th class="table-light align-middle">B単価</th>
+            <td>
+              <div class="input-group">
+                <span class="input-group-text">¥</span>
+                <%= form.number_field :standard_price_b, step: 1, class: "form-control" %>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th class="table-light align-middle">C単価</th>
+            <td>
+              <div class="input-group">
+                <span class="input-group-text">¥</span>
+                <%= form.number_field :standard_price_c, step: 1, class: "form-control" %>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card mt-3">
+      <div class="card-header">
+        📝 備考
+      </div>
+      <div class="card-body">
+        <%= form.text_area :notes, rows: 5, class: "form-control", placeholder: "備考を入力してください" %>
+      </div>
+    </div>
+
+    <div class="mt-3 d-flex gap-2">
+      <%= form.submit "登録", class: "btn btn-primary" %>
+      <%= link_to "戻る", :back, class: "btn btn-secondary" %>
     </div>
   <% end %>
-
-  <div>
-    <%= form.label :product_code, "商品コード", style: "display: block" %>
-    <%= form.text_field :product_code %>
-  </div>
-
-  <div>
-    <%= form.label :product_name, "商品名", style: "display: block" %>
-    <%= form.text_field :product_name %>
-  </div>
-
-  <div>
-    <%= form.label :case_quantity, "入数", style: "display: block" %>
-    <%= form.number_field :case_quantity, min: 1 %>
-  </div>
-
-  <div>
-    <%= form.label :standard_price_a, "A単価", style: "display: block" %>
-    <%= form.number_field :standard_price_a, step: 0.01 %>
-  </div>
-
-  <div>
-    <%= form.label :standard_price_b, "B単価", style: "display: block" %>
-    <%= form.number_field :standard_price_b, step: 0.01 %>
-  </div>
-
-  <div>
-    <%= form.label :standard_price_c, "C単価", style: "display: block" %>
-    <%= form.number_field :standard_price_c, step: 0.01 %>
-  </div>
-
-  <div>
-    <%= form.label :notes, "備考", style: "display: block" %>
-    <%= form.text_area :notes, rows: 5 %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>
