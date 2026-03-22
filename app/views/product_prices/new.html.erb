@@ -1,10 +1,5 @@
-<h1>商品単価の新規登録</h1>
-<p>得意先: <%= @customer.customer_name %></p>
-
-<%= render "form", customer: @customer, product_price: @product_price %>
-
-<br>
-
-<div>
-  <%= link_to "戻る", customer_product_prices_path(@customer) %>
+<div class="mt-4">
+  <h2>商品単価 新規登録</h2>
+  <p class="text-muted">得意先: <%= @customer.customer_name %></p>
+  <%= render "form", customer: @customer, product_price: @product_price %>
 </div>
