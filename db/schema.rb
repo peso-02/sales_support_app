@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_28_084611) do
-  create_table "customers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+ActiveRecord::Schema[7.1].define(version: 20260223062811) do
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "customer_code"
     t.string "customer_name"
     t.integer "closing_day"
@@ -29,7 +29,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_28_084611) do
     t.integer "payment_day"
   end
 
-  create_table "manual_update_requests", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "manual_update_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "manual_id", null: false
     t.integer "requested_by_id"
     t.integer "status"
@@ -40,7 +40,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_28_084611) do
     t.index ["manual_id"], name: "index_manual_update_requests_on_manual_id"
   end
 
-  create_table "manuals", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "manuals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "customer_id", null: false
     t.string "title"
     t.integer "file_status"
@@ -51,7 +51,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_28_084611) do
     t.index ["customer_id"], name: "index_manuals_on_customer_id"
   end
 
-  create_table "product_prices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "product_prices", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "customer_id", null: false
     t.bigint "product_id", null: false
     t.decimal "selling_price", precision: 10
@@ -62,7 +62,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_28_084611) do
     t.index ["product_id"], name: "index_product_prices_on_product_id"
   end
 
-  create_table "products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "products", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "product_code"
     t.string "product_name"
     t.integer "case_quantity"
@@ -74,7 +74,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_28_084611) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "supplier_contacts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "supplier_contacts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "supplier_id", null: false
     t.string "contact_name"
     t.string "email"
@@ -86,7 +86,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_28_084611) do
     t.index ["supplier_id"], name: "index_supplier_contacts_on_supplier_id"
   end
 
-  create_table "suppliers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "suppliers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "supplier_code"
     t.string "supplier_name"
     t.integer "closing_day"
@@ -99,7 +99,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_28_084611) do
     t.integer "payment_day"
   end
 
-  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
