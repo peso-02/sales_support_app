@@ -61,6 +61,9 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  group :development do
+    gem 'rails-erd'
+  end 
 end
 
 group :test do
