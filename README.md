@@ -104,7 +104,118 @@
 - 担当営業/アシスタントによる絞り込み表示
 
 ## データベース設計
-※ER図は後日追加予定
+erDiagram
+    Users ||--o{ Customers : "sales_rep"
+    Users ||--o{ Customers : "assistant"
+    Users ||--o{ Manuals : "approved_by"
+    Users ||--o{ ManualUpdateRequests : "requested_by"
+    
+    Customers ||--o{ ProductPrices : "has"
+    Customers ||--o{ Manuals : "has"
+    
+    Products ||--o{ ProductPrices : "has"
+    
+    Suppliers ||--o{ SupplierContacts : "has"
+    
+    Manuals ||--o{ ManualUpdateRequests : "has"
+
+    Users {
+        bigint id PK
+        string email
+        integer role "0:general, 1:assistant, 2:approver, 3:admin"
+        datetime created_at
+        datetime updated_at
+    }
+
+    Customers {
+        bigint id PK
+        string customer_code
+        string customer_name
+        integer closing_day
+        integer payment_terms
+        integer payment_day
+        string business_type
+        boolean case_break_shipping_allowed
+        integer case_break_shipping_fee
+        integer delivery_note_type "1:separate_later, 2:with_product, 3:not_required"
+        integer order_method "0:web_edi, 1:email, 2:fax"
+        bigint sales_rep_id FK
+        bigint assistant_id FK
+        text notes
+        datetime created_at
+        datetime updated_at
+    }
+
+    Suppliers {
+        bigint id PK
+        string supplier_code
+        string supplier_name
+        integer closing_day
+        integer payment_terms
+        integer payment_day
+        boolean case_break_order_allowed
+        integer case_break_order_fee
+        text notes
+        datetime created_at
+        datetime updated_at
+    }
+
+    SupplierContacts {
+        bigint id PK
+        bigint supplier_id FK
+        string contact_name
+        string email
+        string phone
+        string fax
+        text notes
+        datetime created_at
+        datetime updated_at
+    }
+
+    Products {
+        bigint id PK
+        string product_code
+        string product_name
+        integer case_quantity
+        decimal standard_price_a
+        decimal standard_price_b
+        decimal standard_price_c
+        text notes
+        datetime created_at
+        datetime updated_at
+    }
+
+    ProductPrices {
+        bigint id PK
+        bigint customer_id FK
+        bigint product_id FK
+        decimal selling_price
+        text notes
+        datetime created_at
+        datetime updated_at
+    }
+
+    Manuals {
+        bigint id PK
+        bigint customer_id FK
+        string title
+        integer file_status "0:draft, 1:pending, 2:approved, 3:rejected"
+        bigint approved_by_id FK
+        datetime approved_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    ManualUpdateRequests {
+        bigint id PK
+        bigint manual_id FK
+        bigint requested_by_id FK
+        integer status "0:pending, 1:approved, 2:rejected"
+        text request_note
+        text response_note
+        datetime created_at
+        datetime updated_at
+    }
 
 ### テーブル構成
 - users（ユーザー）
