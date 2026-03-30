@@ -89,7 +89,7 @@
    - 未設定商品の可視化
 
 6. **レスポンシブデザイン**
-   - Bootstrapによるモダンなデザイン
+   - Bootstrapによるシンプルなデザイン
    - テーブルの見やすい表示
    - カード型ダッシュボード
 
@@ -106,9 +106,6 @@
 ## データベース設計
 [![Image from Gyazo](https://i.gyazo.com/5defacf8f958111595f2ae61e28a7bba.png)](https://gyazo.com/5defacf8f958111595f2ae61e28a7bba)
 
-## 画面遷移図
-[![Image from Gyazo](https://i.gyazo.com/13a4f83ebc10db8ab5ce30394e44ff5b.png)](https://gyazo.com/13a4f83ebc10db8ab5ce30394e44ff5b)
-
 ### テーブル構成
 - users（ユーザー）
 - customers（得意先）
@@ -120,7 +117,7 @@
 - manual_update_requests（マニュアル更新申請）※実装予定
 
 ## 画面遷移図
-※画面遷移図は後日追加予定
+[![Image from Gyazo](https://i.gyazo.com/13a4f83ebc10db8ab5ce30394e44ff5b.png)](https://gyazo.com/13a4f83ebc10db8ab5ce30394e44ff5b)
 
 ## 開発環境
 - **フロントエンド**: HTML, CSS, Bootstrap 5.3, JavaScript
