@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :product_prices
   resources :products
 
-  devise_for :users
+  devise_for :users, skip: [:registrations]
   
   # ダッシュボードをルートに設定
   root 'dashboard#index'
