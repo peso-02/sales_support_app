@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :products
 
   devise_for :users, skip: [:registrations]
+  get '/users/sign_up', to: redirect('/users/sign_in')
   
   # ダッシュボードをルートに設定
   root 'dashboard#index'
