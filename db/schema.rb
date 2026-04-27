@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_05_152326) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_27_115751) do
   create_table "customers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "customer_code"
     t.string "customer_name"
@@ -29,23 +29,25 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_05_152326) do
 
   create_table "manual_update_requests", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "manual_id", null: false
-    t.integer "requested_by_id"
+    t.bigint "requested_by_id"
     t.integer "status"
     t.text "request_note"
     t.text "response_note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["manual_id"], name: "index_manual_update_requests_on_manual_id"
+    t.index ["requested_by_id"], name: "fk_rails_8f6fbfc33e"
   end
 
   create_table "manuals", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "customer_id", null: false
     t.string "title"
     t.integer "file_status"
-    t.integer "approved_by_id"
+    t.bigint "approved_by_id"
     t.datetime "approved_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["approved_by_id"], name: "fk_rails_31b49867b2"
     t.index ["customer_id"], name: "index_manuals_on_customer_id"
   end
 
@@ -111,7 +113,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_05_152326) do
   end
 
   add_foreign_key "manual_update_requests", "manuals"
+  add_foreign_key "manual_update_requests", "users", column: "requested_by_id"
   add_foreign_key "manuals", "customers"
+  add_foreign_key "manuals", "users", column: "approved_by_id"
   add_foreign_key "product_prices", "customers"
   add_foreign_key "product_prices", "products"
   add_foreign_key "supplier_contacts", "suppliers"
